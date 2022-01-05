@@ -1,5 +1,6 @@
 import axios from "axios";
 import dotenv from "dotenv";
+import { MapboxFeatures, Places } from "../search";
 dotenv.config();
 
 export class Search {
@@ -14,7 +15,7 @@ export class Search {
     return;
   }
 
-  async place(place: string): Promise<string[]> {
+  async place(place: string): Promise<Places[]> {
     // HTTP call
     try {
       const { data } = await axios.get(
@@ -26,8 +27,12 @@ export class Search {
           },
         }
       );
-      console.log(data);
-      return [];
+      return (data.features as MapboxFeatures[]).map((place) => ({
+        id: place.id,
+        name: place.place_name,
+        lng: place.center[0],
+        lat: place.center[1],
+      }));
     } catch (error) {
       console.log(error);
       return [];

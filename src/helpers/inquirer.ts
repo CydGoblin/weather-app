@@ -1,5 +1,6 @@
 import "colors";
 import inquirer from "inquirer";
+import { Places } from "../search";
 
 export enum MENU {
   BUSCAR,
@@ -11,7 +12,7 @@ export const inquirerMenu = async () => {
   const { desc } = await inquirer.prompt({
     type: "list",
     name: "desc",
-    message: '"Choose an option: "',
+    message: "Choose an option: ",
     choices: [
       { value: MENU.BUSCAR, name: `${"1".green} Buscar ciudad` },
       { value: MENU.HISTORIAL, name: `${"2".green} Historial` },
@@ -37,4 +38,28 @@ export const pause = async () => {
     message: `\nPress ${"ENTER".green} to continue`,
   });
   return response;
+};
+
+export const menuPlaces = async (places: Places[]) => {
+  let choices = places.map((place, index) => {
+    const idx = index + 1;
+    return {
+      value: place.id,
+      name: `${`${idx}.`.green} ${place.name}`,
+    };
+  });
+
+  choices.unshift({
+    value: "0",
+    name: "0.".green + " Cancel",
+  });
+
+  const { response } = await inquirer.prompt({
+    type: "list",
+    name: "response",
+    message: "Choose an option: ",
+    choices,
+  });
+
+  return response as string;
 };
