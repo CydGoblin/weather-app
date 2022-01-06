@@ -1,19 +1,7 @@
 import axios from "axios";
 import dotenv from "dotenv";
+import { MapboxFeatures, Places, Weather } from "../global";
 dotenv.config();
-
-export interface MapboxFeatures {
-  id: "string";
-  place_name: string;
-  center: [number, number];
-}
-
-export interface Places {
-  id: string;
-  name: string;
-  lng: number;
-  lat: number;
-}
 
 export class Search {
   history: string[];
@@ -49,7 +37,30 @@ export class Search {
       console.log(error);
       return [];
     }
+  }
 
-    // Return search results
+  async weatherByCoords(lat: number, lng: number) {
+    try {
+      const { data }: { data: Weather } = await axios.get(
+        `http://api.openweathermap.org/data/2.5/weather`,
+        {
+          params: {
+            lat: lat,
+            lon: lng,
+            appid: process.env.OPENWEATHER_KEY,
+            units: "metric",
+          },
+        }
+      );
+      return {
+        desc: data.weather[0].description,
+        temp: data.main.temp,
+        min: data.main.temp_min,
+        max: data.main.temp_max,
+      };
+    } catch (error) {
+      console.log(error);
+      return "No weather data for this location";
+    }
   }
 }

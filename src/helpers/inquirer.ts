@@ -1,6 +1,6 @@
 import "colors";
 import inquirer from "inquirer";
-import { Places } from "../search";
+import { Places } from "../global";
 
 export enum MENU {
   BUSCAR,

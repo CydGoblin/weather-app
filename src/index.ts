@@ -1,4 +1,5 @@
-import { Places, Search } from "./models/search";
+import { Places } from "./global";
+import { Search } from "./models/search";
 import {
   inquirerMenu,
   MENU,
@@ -28,10 +29,27 @@ const main = async () => {
         if (id) {
           chose = placesList.find((place) => place.id === id)!;
 
+          const weather = await search.weatherByCoords(chose.lat, chose.lng);
+
           // Show weather
-          console.log("City: " + chose.name);
-          console.log(`Location: ${chose.lat}, ${chose.lng}`);
-          console.log(`Temperature: (0 max | 0min)`);
+          console.clear();
+          console.log("\nCURRENT WEATHER\n".green);
+          console.log("City: " + chose.name.green);
+          console.log(
+            `Location: ${chose.lat.toString().green}, ${
+              chose.lng.toString().green
+            }`
+          );
+          if (typeof weather === "string") {
+            console.log(weather.green);
+          } else {
+            console.log("Weather " + weather.desc.green);
+            console.log(
+              `Temperature: ${weather.temp.toString().green}${"C".green} (${
+                weather.max
+              }C max | ${weather.min}C min)`
+            );
+          }
         }
 
         break;
