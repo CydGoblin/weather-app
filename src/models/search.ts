@@ -1,7 +1,19 @@
 import axios from "axios";
 import dotenv from "dotenv";
-import { MapboxFeatures, Places } from "../search";
 dotenv.config();
+
+export interface MapboxFeatures {
+  id: "string";
+  place_name: string;
+  center: [number, number];
+}
+
+export interface Places {
+  id: string;
+  name: string;
+  lng: number;
+  lat: number;
+}
 
 export class Search {
   history: string[];

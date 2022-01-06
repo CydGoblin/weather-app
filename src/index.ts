@@ -1,4 +1,4 @@
-import { Search } from "./models/search";
+import { Places, Search } from "./models/search";
 import {
   inquirerMenu,
   MENU,
@@ -6,7 +6,6 @@ import {
   pause,
   readInput,
 } from "./helpers/inquirer";
-import { Places } from "./search";
 
 const main = async () => {
   console.clear();
