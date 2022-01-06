@@ -14,10 +14,6 @@ export class Search {
     this.storage = new Storage();
   }
 
-  get paramsMapbox() {
-    return;
-  }
-
   async place(place: string): Promise<Places[]> {
     // HTTP call
     try {
