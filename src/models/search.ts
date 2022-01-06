@@ -1,14 +1,17 @@
 import axios from "axios";
 import dotenv from "dotenv";
 import { MapboxFeatures, Places, Weather } from "../global";
+import { Storage } from "./Storage";
 dotenv.config();
 
 export class Search {
   history: string[];
+  storage: Storage;
 
   constructor() {
     // TODO: Read storage if exist
     this.history = [];
+    this.storage = new Storage();
   }
 
   get paramsMapbox() {
@@ -62,5 +65,17 @@ export class Search {
       console.log(error);
       return "No weather data for this location";
     }
+  }
+
+  saveHistory(place: string) {
+    // TODO: No duplicates
+    if (this.history.includes(place)) return;
+    this.history.unshift(place);
+    this.storage.saveHistory(this.history);
+  }
+
+  loadHistory() {
+    const loadHistory = this.storage.loadHistory();
+    if (loadHistory) this.history = loadHistory;
   }
 }

@@ -14,9 +14,9 @@ export const inquirerMenu = async () => {
     name: "desc",
     message: "Choose an option: ",
     choices: [
-      { value: MENU.BUSCAR, name: `${"1".green} Buscar ciudad` },
-      { value: MENU.HISTORIAL, name: `${"2".green} Historial` },
-      { value: MENU.SALIR, name: `${"3".green} Salir` },
+      { value: MENU.BUSCAR, name: `${"1.".green} Search city` },
+      { value: MENU.HISTORIAL, name: `${"2.".green} History` },
+      { value: MENU.SALIR, name: `${"3.".green} Exit` },
     ],
   });
   return desc as number;

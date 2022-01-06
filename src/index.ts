@@ -11,7 +11,9 @@ import {
 const main = async () => {
   console.clear();
   const search = new Search();
+  search.loadHistory();
   let optionSelected: number;
+
   do {
     optionSelected = await inquirerMenu();
 
@@ -26,8 +28,11 @@ const main = async () => {
         // Select place
         let chose: Places;
         const id = await menuPlaces(placesList);
+        if (id === "0") continue;
+
         if (id) {
           chose = placesList.find((place) => place.id === id)!;
+          search.saveHistory(chose.name);
 
           const weather = await search.weatherByCoords(chose.lat, chose.lng);
 
@@ -54,12 +59,15 @@ const main = async () => {
 
         break;
       case MENU.HISTORIAL:
-        console.log("HISTORIAL...");
+        search.history.map((item, index) => {
+          const idx = (index + 1 + ".").toString().green;
+          console.log(`${idx} ${item}`);
+        });
         break;
     }
 
     if (optionSelected !== MENU.SALIR) await pause();
-  } while (optionSelected === 0);
+  } while (optionSelected !== MENU.SALIR);
 };
 
 main();
