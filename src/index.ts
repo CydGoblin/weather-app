@@ -1,5 +1,5 @@
 import { Places } from "./global";
-import { Search } from "./models/search";
+import { Search } from "./models/Search";
 import {
   inquirerMenu,
   MENU,
